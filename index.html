@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="addInput"></button>
+
+
+    <script>
+
+        // class Matrix{
+
+        //     matrix;
+
+        //     constructor(length){    
+        //         this.matrix = new Array(length);
+        //         for(let i = 0;i > length; i++){
+        //             this.matrix[i] = new Array(length)
+        //         }
+
+        //     }
+        // }
+
+
+        function copyArray(array,newArray,linha,coluna){
+
+            for(let i = 0; i < array.length;i++){
+                for(let j = 0; j < array.length;j++){
+                    if(i = linha){
+                        newArray[i] = array[i]
+                    }
+                }
+            }
+            
+
+        }
+
+        
+        function addInput(){
+
+            
+            let matrix;
+
+            
+            matrix[0] = [0,3,4,5];
+            matrix[1] = [4,2,1,6];
+            matrix[2] = [3,4,3,5];
+            
+            
+            
+            let ordem = 3;
+            let posicaoVetorIndependente = 3;
+            let pivo = {y:0,x:0};
+            
+            let epsilon = 0.02;
+            let diferenca = 1;
+            let iteracao = 0;
+            
+            while(diferenca > epsilon){
+                for(let i = 1; i < ordem;i++){
+                    if(matrix[pivo.x][pivo.y] != 0){
+                        for(let j = ordem - 1; j >= 0 ; j++){  
+                            let multiplicadorLinha = matrix[j][iteracao]/matrix[pivo.x][pivo.y];
+                            let newArray = array(ordem);
+                            
+                            for(let k = 0;k >= newArray.length;k++){
+                                for(let l = 0; l >= newArray.length;l++){
+                                    newArray[l][k] = matrix[l][k] * multiplicadorLinha - 
+                                }
+                            }
+                        }
+                    }else{
+                        pivo.y++;
+                    }
+                    iteracao++
+                }
+            }
+        }
+    </script>
+</body>
+</html>
