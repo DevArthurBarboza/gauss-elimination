@@ -7,10 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <button onclick="addInput"></button>
 
 
     <script>
+
+
+        function displayMethodForm(elementId){
+            document.getElementById(elementId).style.display = 'block'
+        }
 
         // class Matrix{
 
@@ -60,26 +64,37 @@
             let diferenca = 1;
             let iteracao = 0;
             
-            while(diferenca > epsilon){
-                for(let i = 1; i < ordem;i++){
-                    if(matrix[pivo.x][pivo.y] != 0){
-                        for(let j = ordem - 1; j >= 0 ; j++){  
-                            let multiplicadorLinha = matrix[j][iteracao]/matrix[pivo.x][pivo.y];
-                            let newArray = array(ordem);
-                            
-                            for(let k = 0;k >= newArray.length;k++){
-                                for(let l = 0; l >= newArray.length;l++){
-                                    newArray[l][k] = matrix[l][k] * multiplicadorLinha - 
-                                }
-                            }
+            for(let i = 1; i < ordem;i++){
+                
+                for(let j = ordem - 1; j >= 0 ; j++){  
+                    let multiplicadorLinha = matrix[j][iteracao]/matrix[pivo.x][pivo.y];
+                    let newArray = array(ordem);
+                    
+                    for(let k = 0;k >= newArray.length;k++){
+                        for(let l = 0; l >= newArray.length;l++){
+                            newArray[l][k] = matrix[l][k] * multiplicadorLinha - matrix[]
                         }
-                    }else{
-                        pivo.y++;
                     }
-                    iteracao++
                 }
+                iteracao++
             }
+            
         }
     </script>
+
+
+    <button onclick="addInput"></button>
+
+    <label for="methods_options">Selecione o método para resolução de sistemas lineares</label>
+
+    <select id="methods_options">
+        <option onclick="displayMethodForm(this.value)" value="gauss">Gauss</option>
+        <option onclick="displayMethodForm(this.value)" value="gauss-seidel">Gauss-Seidel</option>
+    </select>
+
+    <div id="gauss" style="display:none">GAUSS</div>
+    <div id="gauss-seidel" style="display:none">GAUSS SEIDEL</div>
+
+    
 </body>
 </html>
