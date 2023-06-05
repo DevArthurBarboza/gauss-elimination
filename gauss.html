@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gauss</title>
+    <script type="text/javascript" src="matrix.js"></script>
 </head>
 <body>
 
+    <h1>Gauss</h1>
+
+
+    <style>
+        input{
+            margin:5px
+        }
+    </style>
 
     <script>
 
@@ -70,14 +79,22 @@
             }
             
         }
+
     </script>
+    
+    <label for="order">Informe a ordem da matrix</label>
+    <input type="number" name="order" id="order">
 
+    <button onclick="gerarMatriz()">Gerar Matriz</button>
+    <button onclick="limparMatriz()">Limpar Matriz</button>
+    <button onclick="limparResultado()">Limpar Resultado</button>
 
-    <label for="methods_options">Selecione o método para resolução de sistemas lineares</label>
+    <div id="matriz-container" style="margin-top:20px"></div>
 
-    <a id="gauss-seidel" href="./gauss.html">GAUSS</a>
-    <a id="gauss" href="./seidel.html">SEIDEL</a>
+    <button id="calcularMatriz" style="display:none" onclick="calcularMatriz()">Calcular Matriz</button>
 
+    <table id="resultado" style="none">
+    </table>
     
 </body>
 </html>
