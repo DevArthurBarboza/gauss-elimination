@@ -7,30 +7,35 @@
     <title>Gauss</title>
     <script type="text/javascript" src="matrix.js"></script>
 </head>
-<body>
+    <body>
 
-    <h1>Gauss</h1>
+        <h1>Gauss</h1>
 
 
-    <style>
-        input{
-            margin:5px
-        }
-    </style>
-    
-    <label for="order">Informe a ordem da matrix</label>
-    <input type="number" name="order" id="order">
+        <style>
+            input{
+                margin:5px;
+            }
 
-    <button onclick="gerarMatriz()">Gerar Matriz</button>
-    <button onclick="limparMatriz()">Limpar Matriz</button>
-    <button onclick="limparResultado()">Limpar Resultado</button>
+            td{
+                border: 1px solid black;
+            }
 
-    <div id="matriz-container" style="margin-top:20px"></div>
+        </style>
 
-    <button id="calcularMatriz" style="display:none" onclick="calcularMatriz()">Calcular Matriz</button>
+        <label for="order">Informe a ordem da matrix</label>
+        <input type="number" name="order" id="order">
 
-    <table id="resultado" style="none">
-    </table>
-    
-</body>
+        <button onclick="matrizGauss.gerarMatriz()">Gerar Matriz</button>
+        <button onclick="matrizGauss.limparMatriz()">Limpar Matriz</button>
+        <button onclick="matrizGauss.limparResultado()">Limpar Resultado</button>
+
+        <div id="matriz-container" style="margin-top:20px"></div>
+
+        <button id="calcularMatriz" style="display:none" onclick="matrizGauss.calcularMatriz()">Calcular Matriz</button>
+
+        <table id="resultado" style="none">
+        </table>
+
+    </body>
 </html>

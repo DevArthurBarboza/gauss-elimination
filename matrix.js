@@ -1,4 +1,7 @@
-function gerarMatriz(){
+
+const matrizGauss = {
+
+gerarMatriz : function(){
     let ordemMatrix = document.getElementById('order').value
 
     let inputs = new Array(parseInt(ordemMatrix));
@@ -18,7 +21,7 @@ function gerarMatriz(){
             inputs[j][i] = input;
         }
         let elementoIndependente = document.createElement('input')
-        elementoIndependente.setAttribute('class','elemento-independente elemento-da-matriz')
+        elementoIndependente.setAttribute('class','elemento-independente')
         elementoIndependente.setAttribute('type','number')
         elementoIndependente.setAttribute('name', 'b' + j)
         elementoIndependente.setAttribute('placeholder', 'b' + j)
@@ -37,90 +40,95 @@ function gerarMatriz(){
     }
     document.getElementById('calcularMatriz').setAttribute('style','display:block')
 
-}
+},
 
 
-function printarResultado(container, matriz, independentes){
+printarResultado : function(container, matriz, independentes){
 
     const ordemMatrix = document.getElementById('order').value;
-    let matrizPrepared = prepareArray(matriz);
     for(let i = 0;i < ordemMatrix;i++){
-        let tabelaLinha = container.insertRow(-1)
-        // let tabelaLinha = document.createElement('tr');
+        let tabelaLinha = container.insertRow()
+
         for(let j = 0;j < ordemMatrix;j++){
-            // let elementoTabela = document.createElement('td') 
-            // elementoTabela.appendChild(document.createTextNode(matrizPrepared[i][j]));
-            // tabelaLinha.appendChild(elementoTabela)
-            let cell = tabelaLinha.insertCell(j)
-            cell.textContent = matrizPrepared[i][j]
+            let elementoMatriz = tabelaLinha.insertCell(j)
+            elementoMatriz.textContent = matriz[i][j]
         }
-        // let elementoTabelaIndependente = document.createElement('td')
-        // elementoTabelaIndependente.appendChild(document.createTextNode(independentes[i]))
-        // tabelaLinha.appendChild(elementoTabelaIndependente)
-        // container.appendChild(tabelaLinha);
-        // container.appendChild(document.createElement('br'));
+
+        let elementoIndependenteCell = tabelaLinha.insertCell()
+        elementoIndependenteCell.textContent = independentes[i]
     }
 
-}
+},
 
-function prepareArray(matriz){
+prepararMatriz : function(matriz){
     const ordemMatrix = document.getElementById('order').value
-    matrizRetorno = new Array(parseInt(ordemMatrix));
+    let matrizRetorno = new Array(parseInt(ordemMatrix));
     for(let i = 0; i < ordemMatrix; i++){
         matrizRetorno[i] = new Array(parseInt(ordemMatrix)); 
         for(let j = 0; j < ordemMatrix; j++){
-            matrizRetorno[i][j] = getSpecificElement(matriz,i + 1,j + 1);
+            matrizRetorno[i][j] = this.getSpecificElement(matriz,i + 1,j + 1);
         }
     }
 
-    for(let i = ordemMatrix;i == ordemMatrix; i++)
-    {
-        for(let j = 0; j < ordemMatrix; j++){
-            matrizRetorno[i][j] = getSpecificElement(matriz,i + 1,j + 1);
-        }
-    }
     return matrizRetorno;
-}
+},
 
-function getSpecificElement(matriz,linha,coluna){
+prepararVetor : function(vetor){
+    const ordemMatrix = document.getElementById('order').value
+    let vetorRetorno = new Array(parseInt(ordemMatrix));
+    for(let i = 0; i < ordemMatrix; i++){
+        vetorRetorno[i] = vetor[i].value
+    }
+
+
+    return vetorRetorno;
+},
+
+getSpecificElement : function(matriz,linha,coluna){
     for(let i =0; i < matriz.length;i++){
         if(matriz[i].dataset.linha == linha && matriz[i].dataset.coluna == coluna){
             return matriz[i].value;
         }
     }
-}
+},
 
 
-function calcularMatriz(){
+calcularMatriz : function(){
     let elementosDaMatriz = document.getElementsByClassName('elemento-da-matriz')
     let elementosIndependentes = document.getElementsByClassName('elemento-independente')
 
     const ordemMatrix = document.getElementById('order').value
 
-    let matrizPreparada = prepareArray(elementosDaMatriz)
+    let matrizPreparada = this.prepararMatriz(elementosDaMatriz)
+    let vetorPreparado = this.prepararVetor(elementosIndependentes)
 
-    for(let k = 1; k <= ordemMatrix; k++){
+    for(let k = 0; k < ordemMatrix; k++){
         for(let i = k+1; i < ordemMatrix; i++){
             let multiplicador = matrizPreparada[i][k] / matrizPreparada[k][k]
 
             for(let j = k;j < ordemMatrix; j++){
-                matrizPreparada[i][j] -= multiplicador * matrizPreparada[k][j] 
+                matrizPreparada[i][j] -= (multiplicador * matrizPreparada[k][j]) 
             }
-            elementosIndependentes[i] -= multiplicador * elementosIndependentes[k]
+            vetorPreparado[i] -= (multiplicador * vetorPreparado[k])
         }
     }
+
+    this.vetorResultado = vetorPreparado
+    this.matrizPreparada = matrizPreparada
     
     let resultadoContainer = document.getElementById('resultado');
 
-    printarResultado(resultadoContainer,elementosDaMatriz,elementosIndependentes)
+    this.printarResultado(resultadoContainer,matrizPreparada,vetorPreparado)
 
-}
+},
 
 
-function limparMatriz(){
+limparMatriz : function(){
     document.getElementById('matriz-container').innerHTML = '';
+},
+
+limparResultado : function(){
+    document.getElementById('resultado').innerHTML = '';
 }
 
-function limparResultado(){
-    document.getElementById('resultado').innerHTML = '';
 }
