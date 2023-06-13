@@ -48,7 +48,7 @@ printarResultado : function(container, matriz, independentes, step){
 
     const ordemMatrix = document.getElementById('order').value;
     let h2 = document.createElement('h2');
-    h2.textContent = step
+    h2.textContent = "Etapa " + step
     container.appendChild(h2)
 
     let table = document.createElement('table')
@@ -100,12 +100,18 @@ getSpecificElement : function(matriz,linha,coluna){
     }
 },
 
+printarLU : function(){
+    let matriz = this.matrizPreparada
+    let vetor = this.vetorResultado
+    let ordem = this.ordemMatrix
+
+},
 
 calcularMatriz : function(){
     let elementosDaMatriz = document.getElementsByClassName('elemento-da-matriz')
     let elementosIndependentes = document.getElementsByClassName('elemento-independente')
     let resultadoContainer = document.getElementById('resultado');
-
+    let lower = this.criarMatrizIdentidade()
 
     const ordemMatrix = document.getElementById('order').value
 
@@ -117,24 +123,39 @@ calcularMatriz : function(){
     for(let k = 0; k < ordemMatrix; k++){
         for(let i = k+1; i < ordemMatrix; i++){
             let multiplicador = matrizPreparada[i][k] / matrizPreparada[k][k]
-
+            lower[i][k] = multiplicador
             for(let j = k;j < ordemMatrix; j++){
                 matrizPreparada[i][j] -= (multiplicador * matrizPreparada[k][j]) 
             }
             vetorPreparado[i] -= (multiplicador * vetorPreparado[k])
-            this.printarResultado(resultadoContainer,matrizPreparada,vetorPreparado, step++)
+            this.printarResultado(resultadoContainer,matrizPreparada,vetorPreparado, k+1)
         }
     }
 
     this.vetorResultado = vetorPreparado
     this.matrizPreparada = matrizPreparada
 
-    this.printarVariaveis()
+    this.printarVariaveis(lower, matrizPreparada)
 
 },
 
+criarMatrizIdentidade : function(){
+    let ordem = document.getElementById('order').value
+    let matrizIdentidade = new Array(parseInt(ordem))
 
-printarVariaveis : function(){
+    for(let i =0; i < ordem;i++){
+        matrizIdentidade[i] = new Array(parseInt(ordem))
+        for(let j = 0; j < ordem;j++){
+            if(i == j){
+                matrizIdentidade[i][j] = 1
+            }
+        }
+    }
+    return matrizIdentidade
+},
+
+
+printarVariaveis : function(lower,matrizPreparada){
     let matriz = this.matrizPreparada
     let vetor = this.vetorResultado
     let ordem = this.ordemMatrix
@@ -149,11 +170,11 @@ printarVariaveis : function(){
             if(variaveis[j] != undefined){                
                 row += matriz[i][j] * variaveis[j] 
             }else{
-                row -= vetor[i]
+                row = vetor[i] - row
                 row =  row / matriz[i][j]
             }
         }
-        variaveis[i] = row / vetor[i]
+        variaveis[i] = row
     }
 
     let resultadoDiv = document.getElementById('resultado');
@@ -164,6 +185,77 @@ printarVariaveis : function(){
         resultadoDiv.appendChild(div)
     }
 
+    let permutacaoDiv = document.getElementById("permutacao")
+
+    let lTable = document.createElement('table')
+    let lIitulo = document.createElement('h2')
+    lIitulo.textContent = 'L'
+
+    for(let i = 0; i < ordem;i++){
+        let linha = lTable.insertRow()
+        for(let j = 0; j < ordem;j++){
+            let elemento = linha.insertCell(j)
+            if(lower[i][j] != undefined){
+                elemento.textContent = lower[i][j]
+            }    
+        }
+    }
+    permutacaoDiv.appendChild(lIitulo)
+    permutacaoDiv.appendChild(lTable)
+
+
+
+    let uTable = document.createElement('table')
+    let uTitulo = document.createElement('h2')
+    uTitulo.textContent = 'U'
+
+    for(let i = 0; i < ordem;i++){
+        let linha = uTable.insertRow()
+        for(let j = 0; j < ordem;j++){
+            let elemento = linha.insertCell(j)
+            if(matrizPreparada[i][j] != 0){
+                elemento.textContent = matrizPreparada[i][j]
+            }    
+        }
+    }
+    permutacaoDiv.appendChild(uTitulo)
+    permutacaoDiv.appendChild(uTable)
+
+
+
+    
+    
+    let matrizIdentidade = this.criarMatrizIdentidade()
+    let identidadeTable = document.createElement('table')
+    
+    for(let i = 0; i < ordem;i++){
+        let linha = identidadeTable.insertRow()
+        for(let j = 0; j < ordem;j++){
+            let elemento = linha.insertCell(j)
+            elemento.textContent = matrizIdentidade[i][j]
+        }
+    }
+
+
+    let permutacaoTitulo = document.createElement('h2')
+    permutacaoTitulo.textContent = 'Permutação'
+    permutacaoDiv.appendChild(permutacaoTitulo)
+    permutacaoDiv.appendChild(identidadeTable)
+
+
+    let luTable = document.createElement('table')
+    let luTitulo = document.createElement('h2')
+    luTitulo.textContent = 'LU'
+
+    for(let i = 0; i < ordem;i++){
+        let linha = luTable.insertRow()
+        for(let j = 0; j < ordem;j++){
+            let elemento = linha.insertCell(j)
+            elemento.textContent = matrizPreparada[i][j]
+        }
+    }
+    permutacaoDiv.appendChild(luTitulo)
+    permutacaoDiv.appendChild(luTable)
 
 },
 
