@@ -5,19 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seidel</title>
-    <script type="text/javascript" src="matrix.js"></script>
+    <script type="text/javascript" src="seidel.js"></script>
 
 </head>
 <body>
 
+    <style>
+        input{
+            margin:5px;
+        }
+
+        td{
+            border: 1px solid black;
+        }
+
+        table{
+            margin: 30px 5px;
+        }
+
+    </style>
+
+
     <h1>Seidel</h1>
 
+    <label for="order">Informe o épsilon (em formato decimal)</label>
+    <input type="number" name="error" id="error">
     <label for="order">Informe a ordem da matrix</label>
     <input type="number" name="order" id="order">
 
-    <button onclick="matrizGauss.gerarMatrix()">Gerar Matrix</button>
+    
+    <button onclick="matrizSeidel.gerarMatriz()">Gerar Matrix</button>
+    <button onclick="matrizSeidel.limparMatriz()">Limpar Matriz</button>
+    <button onclick="matrizSeidel.limparResultado()">Limpar Resultado</button>
+    
+
+    <div id="chute-container"></div>
 
     <div id="matriz-container"></div>
+
+    <button id="calcularMatriz" style="display:none" onclick="matrizSeidel.calcularMatriz()">Calcular Matriz</button>
+
+    <div id="resultado"></div>
 
     
 </body>
